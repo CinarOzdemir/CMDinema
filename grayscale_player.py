@@ -2,24 +2,18 @@ import sys
 import os
 import cv2 as cv
 import time
+import numpy as np
 
 characters = " .'-:,~;!/*+#$@█"
 
-# Turns a frame to ASCII art based on terminal dimensions
-def frameToAscii(frame) -> str:
-    HEIGHT = len(frame)
-    WIDTH = len(frame[0])
-    pic = [" "] * ((WIDTH + 1) * HEIGHT)
+char_array = np.array(list(characters))
 
-    for row in range(0, len(frame)):
 
-        pic[row * (WIDTH + 1)] = "\n"
-
-        for column in range(0, len(frame[0])):
-            brightness = frame[row][column]
-            pic[row * (WIDTH + 1) + column + 1] = characters[int(brightness // (256 / len(characters)))] # Map brightness to a character
-
-    return ''.join(pic)
+def frameToAscii(frame):
+    indices = (frame // (256 / len(characters))).astype(int)
+    ascii_matrix = char_array[indices]
+    pic = "\n" + "\n".join(["".join(row) for row in ascii_matrix])
+    return pic
 
 
 if len(sys.argv) == 2:
@@ -62,7 +56,7 @@ while True:
         break
 
     print(frameToAscii(cv.cvtColor(cv.resize(frame, (RESIZE_WIDTH * 2,
-          RESIZE_HEIGHT)), cv.COLOR_BGR2GRAY)) + "\n"*newLineCount, end="")
+          RESIZE_HEIGHT)), cv.COLOR_BGR2GRAY)) + "\n" * newLineCount, end="")
 
     targetTime = START_TIME + frameCount / SOURCE_FPS
     currentTime = time.time()
