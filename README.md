@@ -5,7 +5,7 @@ A video player that runs entirely in the terminal. It converts each frame to ASC
 
 ## See it in Action:
 
-[![YouTube](https://github.com/user-attachments/assets/fd10dabb-bc57-4623-80a3-5ac6878a905f)](https://www.youtube.com/embed/bEEgs1xJj1k)
+[![YouTube](https://github.com/user-attachments/assets/fd10dabb-bc57-4623-80a3-5ac6878a905f)](https://www.youtube.com/watch?v=bEEgs1xJj1k)
 
 ## Features:
 1) Instant play (No waiting for the video to load; the frames are generated as the video plays)
