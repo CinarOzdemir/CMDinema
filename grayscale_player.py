@@ -28,8 +28,12 @@ if not success:
     exit()
 
 # Constants to do math with
-TERMINAL_WIDTH = os.get_terminal_size()[0] // 2
-TERMINAL_HEIGHT = os.get_terminal_size()[1]
+try:
+    TERMINAL_WIDTH = os.get_terminal_size()[0] // 2
+    TERMINAL_HEIGHT = os.get_terminal_size()[1]
+except OSError:
+    TERMINAL_WIDTH = 80 // 2
+    TERMINAL_HEIGHT = 24
 
 SOURCE_WIDTH = len(frame[0])
 SOURCE_HEIGHT = len(frame)
@@ -54,6 +58,14 @@ while True:
     if not success:
         print("\nVideo Completed!")
         break
+
+    targetTime = START_TIME + frameCount / SOURCE_FPS
+    currentTime = time.time()
+
+    if currentTime > targetTime:
+        success, frame = video.read()
+        frameCount += 1
+        continue
 
     print(frameToAscii(cv.cvtColor(cv.resize(frame, (RESIZE_WIDTH * 2,
           RESIZE_HEIGHT)), cv.COLOR_BGR2GRAY)) + "\n" * newLineCount, end="")
